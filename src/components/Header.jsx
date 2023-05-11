@@ -1,12 +1,46 @@
+'use client'
+
 import Image from "next/image"
 import { 
     MenuIcon,
     SearchIcon,
     ShoppingCartIcon
 } from "@heroicons/react/outline"
+import { auth , provider } from "../../firebase";
+import { useRouter } from 'next/navigation';
+import { useSelector } from "react-redux";
+import { selectItems } from "@/app/store/basketSlice";
+
 
 
 const Header = () => {
+    const router = useRouter();
+    const items = useSelector(selectItems)
+
+    const signIn = () => {
+        signInWithPopup(auth, provider)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          // IdP data available using getAdditionalUserInfo(result)
+          // ...
+          console.log(user)
+        }).catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // The email of the user's account used.
+          const email = error.customData.email;
+          // The AuthCredential type that was used.
+          const credential = GoogleAuthProvider.credentialFromError(error);
+          // ...
+          console.log(errorCode , errorMessage)
+        });
+      
+    }
     return (
         <header>
             {/* // Top Nav */}
@@ -17,6 +51,7 @@ const Header = () => {
                     className="mt-2 flex items-center flex-grow sm:flex-grow-0"
                 >
                     <Image
+                        onClick={() => router.push('/')}
                         src="https://links.papareact.com/f90"
                         width={160}
                         height={40}
@@ -40,7 +75,9 @@ const Header = () => {
                 <div
                     className="text-white flex  items-center text-sm space-x-6 mx-6 whitespace-nowrap "
                 >
-                    <div className="link">
+                    <div
+                        onClick={signIn}
+                         className="link">
                         <p>Hello Ares</p>
                         <p className="font-extrabold md:tetx-sm" >Account & Lists</p>
                     </div>
@@ -50,11 +87,13 @@ const Header = () => {
                         <p className="font-extrabold md:tetx-sm">& Orders</p>
                     </div>
 
-                    <div className="link relative flex items-center">
+                    <div 
+                        onClick={() => router.push('/checkout')}
+                        className="link relative flex items-center">
                         <span
                             className="absolute -top-1 right-0  md:right-10 w-4 h-5 bg-yellow-400 text-center rounded-full text-black font-bold"
                         >
-                            0
+                           {items.length}
                         </span>
                         <ShoppingCartIcon className="h-10"/>
                         <p 
