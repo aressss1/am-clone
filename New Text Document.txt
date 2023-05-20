@@ -1,1 +1,1 @@
-after deploying it chang google console URIs to new Project URIs
+after deploying it ,change google console URIs to new Project URIs

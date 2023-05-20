@@ -1,10 +1,11 @@
 'use client'
 
 // import { useState } from "react"
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { StarIcon } from "@heroicons/react/solid"
 import Image from "next/image";
 import { useDispatch } from "react-redux";
+import { addToBasket } from "@/store/basketSlice";
 
 
 
@@ -17,21 +18,30 @@ const Product = ({ id, title, price, description, category, image }) => {
     const [rating] = useState(
         Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
     )
-
+        
     const [hasPrime] = useState(Math.random() < 0.5)
 
-    const addToBasket = () => {
-        const product = {
-            id, title, price, description, category, image , hasPrime 
-        }
+    
+  const addInBasket = useCallback(() => {
+    console.log("addToBasket called");
+    const product = {
+      id,
+      title,
+      price,
+      description,
+      category,
+      image,
+      hasPrime,
+    };
 
-        dispatch(addToBasket(product));
-    }
+    dispatch(addToBasket(product));
+  }, [dispatch, id, title, price, description, category, image, hasPrime]);
     return (
         <div className="relative flex flex-col m-5 bg-white z-30 p-10 " >
             <p className="absolute top-2 right-2 text-xs italic text-graay-400 " >{category}</p>
 
-            <Image
+            <img
+                loading="lazy"
                 src={`${image}`}
                 height={200}
                 width={200}
@@ -55,7 +65,7 @@ const Product = ({ id, title, price, description, category, image }) => {
                 $ {price}
             </div>
 
-            {hasPrime && (
+            {/* {hasPrime && (
               <div className="flex items-center space-x-2 -mt-5 " >
                 <img 
                     loading="lazy"
@@ -65,9 +75,9 @@ const Product = ({ id, title, price, description, category, image }) => {
                 />
                 <p className="text-xs text-gray-500 " >FREE Next-day Delivery</p>
               </div>  
-            )}
+            )} */}
 
-            <button onClick={addToBasket} className="mt-auto  button " >
+            <button onClick={addInBasket} className="mt-auto  button " >
                 Add to Basket
             </button>
 

@@ -1,14 +1,24 @@
+'use client'
+
+import { removeFromBasket } from '@/store/basketSlice'
 import { StarIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 const CheckoutProduct = ({ item }) => {
-    const { id, title, price, description, category, image } = item
+    const { id, title, price, description, category, image , hasPrime } = item
+
+    const MAX_RATING = 5;
+    const MIN_RATING = 1;
+
+    const [rating] = useState(
+        Math.floor(Math.random() * (MAX_RATING - MIN_RATING + 1)) + MIN_RATING
+    )
 
     const dispatch = useDispatch()
 
-    const removeFromBasket = () => {
+    const removeBasket = () => {
         dispatch(removeFromBasket({ id }))
     }
     return (
@@ -17,6 +27,7 @@ const CheckoutProduct = ({ item }) => {
                 src={image}
                 height={200}
                 width={200}
+                alt='image'
             />
 
             {/* Middle */}
@@ -40,7 +51,7 @@ const CheckoutProduct = ({ item }) => {
                     $ {price}
                 </div>
 
-                {hasPrime && (
+                {/* {hasPrime && (
                     <div className="flex items-center space-x-2 " >
                         <img
                             loading="lazy"
@@ -50,11 +61,11 @@ const CheckoutProduct = ({ item }) => {
                         />
                         <p className="text-xs text-gray-500 " >FREE Next-day Delivery</p>
                     </div>
-                )}
+                )} */}
             </div>
 
             <div className='flex flex-col space-y-2 my-auto justify-self-end' >
-                <button onClick={removeFromBasket} className='button'>Remove from Basket</button>
+                <button onClick={removeBasket} className='button'>Remove from Basket</button>
             </div>
         </div>
     )

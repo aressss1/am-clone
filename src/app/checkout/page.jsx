@@ -1,12 +1,43 @@
+'use client'
+
 import Image from 'next/image'
-import React from 'react'
-import { selectItems, selectTotal } from '../store/basketSlice'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import CheckoutProduct from '@/components/CheckoutProduct'
+import { loadStripe } from '@stripe/stripe-js';
+import { useSelector } from 'react-redux';
+import { selectItems, selectTotal } from '@/store/basketSlice';
+import { selectUser } from '@/store/userSlice';
+import axios from 'axios';
+
+const stripePromise = loadStripe(
+  process.env.STRIPE_PUBLIC_KEY
+);
 
 const CheckoutPage = () => {
   const total = useSelector(selectTotal)
   const items = useSelector(selectItems)
+  const user = useSelector(selectUser)
+
+ 
+  
+
+  const createStripeCheckout = async () => {
+    const checkOutSession = await axios.post('/api/checkout_sessions', {
+      items,
+      email: user.email
+    })
+
+    
+    const result = (await stripePromise).redirectToCheckout({
+      sessionId: checkOutSession.data.id
+    }) 
+    
+    if(result.error) {
+      alert((await result).error.message)
+    }
+  }
+
+
   return (
     <div className='bg-gray-100' >
       <main
@@ -18,6 +49,7 @@ const CheckoutPage = () => {
             src="https://links.papareact.com/ikj"
             width={1020}
             height={250}
+            alt=''
           />
 
           <div
@@ -36,7 +68,7 @@ const CheckoutPage = () => {
 
         {/* Right Section */}
         <div className='flex flex-col bg-white p-10 shadow-md ' >
-          {items.length > 0 && (
+          {items?.length > 0 && (
             <>
               <h2 className='whitespace-nowrap' >
                 Subtotal ({items.length} items):{" "}
@@ -44,12 +76,13 @@ const CheckoutPage = () => {
                   $ {total}
                 </span>
               </h2>
-              {/* className={`button mt-2 ${!user && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed  '}`} */}
-              <button 
-              // disabled={!user}
-              className='button'  >
-                {/* if no user log iN ELSE PROCEED TO CHECKOUT */}
-                <p>Proceed to checkout</p>
+              
+              <button
+                role="link"
+                onClick={createStripeCheckout}
+                disabled={!user}
+                className={`button mt-2 ${!user && 'from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed  '}`} >
+                <p>{user ? "Checkout" : "Log in to checkout"}</p>
               </button>
             </>
           )}
