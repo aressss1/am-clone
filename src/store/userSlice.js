@@ -13,8 +13,8 @@ export const userSlice = createSlice({
     loginCompeleted: (state, action) => {
       state.currentUser = action.payload
     },
-    logoutCompeleted: (state) => {
-      state.user = initialState
+    logoutCompeleted: (state ,action) => {
+      state.currentUser = null
     },
   },
 });

@@ -9,8 +9,8 @@ import { selectItems, selectTotal } from '@/store/basketSlice';
 import { selectUser } from '@/store/userSlice';
 import axios from 'axios';
 
-const stripePromise = loadStripe(
-  process.env.STRIPE_PUBLIC_KEY
+const stripe = loadStripe(
+  `${process.env.STRIPE_PUBLIC_KEY}`
 );
 
 const CheckoutPage = () => {
@@ -19,24 +19,23 @@ const CheckoutPage = () => {
   const user = useSelector(selectUser)
 
  
-  
+
 
   const createStripeCheckout = async () => {
-    const checkOutSession = await axios.post('/api/checkout_sessions', {
-      items,
-      email: user.email
+    fetch('/api/create-checkout-session', {
+      method: "POST",
+      body: JSON.stringify({
+        items,
+        email:user.email
+      }),
     })
-
-    
-    const result = (await stripePromise).redirectToCheckout({
-      sessionId: checkOutSession.data.id
-    }) 
-    
-    if(result.error) {
-      alert((await result).error.message)
-    }
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(session) {
+      return stripe.redirectToCheckout({ sessionId: session.id });
+    })
   }
-
 
   return (
     <div className='bg-gray-100' >

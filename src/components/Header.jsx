@@ -46,13 +46,18 @@ const Header = () => {
 
     //not working
     const signnOut = () => {
-        signOut(auth).then(() => {
-        }).catch((error) => {
-            console.log(error)
-        });
-        dispatch(logoutCompeleted)
+        dispatch(logoutCompeleted())
 
     }
+
+    const orderRouter = () => {
+        if (loggedInUser) {
+            router.push('/orders')
+        } else {
+            alert("Log In First To See Your Orders")
+        }
+    }
+
     return (
         <header>
             {/* // Top Nav */}
@@ -70,6 +75,7 @@ const Header = () => {
                         // fill
                         alt="Amazon Logo"
                         className="cursor-pointer pl-4 mt-2"
+                        priority={true}
                     />
                 </div>
 
@@ -87,7 +93,7 @@ const Header = () => {
                 <div
                     className="text-white flex  items-center text-sm space-x-6 mx-6 whitespace-nowrap "
                 >
-                    {loggedInUser ?
+                    {loggedInUser?.displayName ?
                         <>
                             <div
                                 onClick={signnOut}
@@ -110,7 +116,7 @@ const Header = () => {
                     }
 
                     <div
-                        // onClick={loggedInUser && router.push('/orders')} 
+                        onClick={orderRouter}
                         className="link">
                         <p>Returns</p>
                         <p className="font-extrabold md:tetx-sm">& Orders</p>
@@ -155,5 +161,6 @@ const Header = () => {
         </header>
     )
 }
+
 
 export default Header
