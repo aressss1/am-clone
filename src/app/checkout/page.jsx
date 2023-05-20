@@ -35,6 +35,10 @@ const CheckoutPage = () => {
     .then(function(session) {
       return stripe.redirectToCheckout({ sessionId: session.id });
     })
+
+    if (result.error) {
+      alert(result.error.message);
+    }
   }
 
   return (
