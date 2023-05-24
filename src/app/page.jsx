@@ -2,6 +2,13 @@ import Banner from "@/components/Banner";
 import Header from "@/components/Header";
 import ProductFeed from "@/components/ProductFeed";
 
+
+export const metadata = {
+  title: 'E-Commerce App',
+  description: 'E-Commerce App',
+}
+
+
 export default function Home() {
   return (
       <div className="bg-gray-100">
