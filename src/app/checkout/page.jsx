@@ -9,35 +9,30 @@ import { selectItems, selectTotal } from '@/store/basketSlice';
 import { selectUser } from '@/store/userSlice';
 import axios from 'axios';
 
+
 const stripe = loadStripe(
   `${process.env.STRIPE_PUBLIC_KEY}`
 );
+
 
 const CheckoutPage = () => {
   const total = useSelector(selectTotal)
   const items = useSelector(selectItems)
   const user = useSelector(selectUser)
 
- 
 
 
   const createStripeCheckout = async () => {
-    fetch('/api/create-checkout-session', {
-      method: "POST",
-      body: JSON.stringify({
+    try {
+      const response = await axios.post('/api/create-checkout-session', {
         items,
-        email:user.email
-      }),
-    })
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(session) {
-      return stripe.redirectToCheckout({ sessionId: session.id });
-    })
-
-    if (result.error) {
-      alert(result.error.message);
+        email: user.email
+      })
+      const { checkoutUrl } = response.data;
+      // Redirect the user to the checkout URL
+      window.location.href = checkoutUrl;
+    } catch (error) {
+      throw new Error(error)
     }
   }
 
@@ -63,8 +58,8 @@ const CheckoutPage = () => {
               {items.length === 0 ? 'Your Shopping Basket is empty' : " Your Shopping Basket "}
             </h1>
 
-            {items?.map((item) => (
-              <CheckoutProduct key={item.id} item={item} />
+            {items?.map((item , i) => (
+              <CheckoutProduct key={i} item={item} />
             ))}
           </div>
         </div>
@@ -79,7 +74,7 @@ const CheckoutPage = () => {
                   $ {total}
                 </span>
               </h2>
-              
+
               <button
                 role="link"
                 onClick={createStripeCheckout}

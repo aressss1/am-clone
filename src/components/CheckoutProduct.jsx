@@ -47,8 +47,8 @@ const CheckoutProduct = ({ item }) => {
                     {description}
                 </p>
 
-                <div >
-                    $ {price}
+                <div className='mb-5 font-semibold italic' >
+                    ${price}
                 </div>
 
                 {/* {hasPrime && (

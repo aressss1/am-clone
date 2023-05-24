@@ -1,14 +1,22 @@
-import React from 'react'
-import { CheckCircleIcon } from '@heroicons/react/outline'
-import { useRouter } from 'next/router'
-import Header from '@/components/Header'
+'use client'
 
-const page = () => {
+import React, { useEffect } from 'react'
+import { CheckCircleIcon } from '@heroicons/react/outline'
+import { useRouter } from 'next/navigation'
+import Header from '@/components/Header'
+import { useDispatch } from 'react-redux'
+import { basketClear } from '@/store/basketSlice'
+
+const Page = () => {
     const router = useRouter()
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+      dispatch(basketClear())
+    } , [])
 
     return (
         <>
-
             <Header />
 
             <div className='bg-gray-100 h-screen' >
@@ -22,7 +30,7 @@ const page = () => {
                         </div>
 
                         <p>
-                            Thank you for shopping with us. we'll send a confirmation email once your item has shipped . if you would like to check the status of your order(s) please press the link below
+                            Thank you for shopping with us. we will send a confirmation email once your item has shipped . if you would like to check the status of your order(s) please press the link below
                         </p>
                         <button
                             onClick={() => router.push("/orders")}
@@ -38,4 +46,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

@@ -1,33 +1,52 @@
-// import { Carousel } from "react-responsive-carousel"
+"use client";
 
-// import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import { Carousel } from "react-responsive-carousel";
+
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 const Banner = () => {
   return (
-    <div className="relative" >
-        <div className="absolute w-full h-32 bg-gradient-to-t from-gray-100 to-transparent bottom-0 z-20 " />
-        {/* <Carousel
-            autoPlay
-            infiniteLoop
-            showStatus={false}
-            showIndicators={false}
-            showThumbs={false}
-            interval={5000}
-        > */}
-            {/* <div>
-                <img loading="lazy"  src="https://links.papareact.com/gi1" alt="" />
-            </div>
-           
-            <div>
-                <img loading="lazy"  src="https://links.papareact.com/6ff" alt="" />
-            </div> */}
-           
-            <div>
-                <img loading="lazy"  src="https://links.papareact.com/7ma" alt="" />
-            </div>
-        {/* </Carousel> */}
-    </div>
-  )
-}
+    <div className="relative">
+      <div className="absolute w-full h-32 bg-gradient-to-t from-gray-100 to-transparent bottom-0 z-20 " />
 
-export default Banner
+      <Carousel
+        autoPlay
+        infiniteLoop
+        showStatus={false}
+        showIndicators={false}
+        showThumbs={false}
+        interval={5000}
+      >
+        <div>
+          <img loading="lazy" src="https://links.papareact.com/7ma" alt="" />
+        </div>
+        <div>
+          <img loading="lazy" src="https://links.papareact.com/6ff" alt="" />
+        </div>
+        <div>
+          <img loading="lazy" src="https://links.papareact.com/gi1" alt="" />
+        </div>
+      </Carousel>
+    </div>
+  );
+};
+
+export default Banner;
+
+// import { Carousel } from "react-responsive-carousel"
+
+// import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+// const settings = {
+//     infinite: true,
+//     speed: 500,
+//     slidesToShow: 1,
+//     slidesToScroll: 1,
+//     autoplay: true,
+//     autoplaySpeed: 5000,
+//     // cssEase: "linear"
+// };
+
+// import Slider from "react-slick";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";

@@ -11,8 +11,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from "react-redux";
 import { selectItems } from "@/store/basketSlice";
 import { loginCompeleted, logoutCompeleted, selectUser } from "@/store/userSlice";
-import { LoginIcon } from "@heroicons/react/solid";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 
 
 
@@ -107,10 +106,8 @@ const Header = () => {
                             <div
                                 onClick={signIn}
                                 className="link">
-                                <p>Log In</p>
-                                <p className="font-extrabold md:tetx-sm" >
-                                    <LoginIcon className="h-7" />
-                                </p>
+                                <p>Hello , Sign In</p>
+                                <p className="font-extrabold md:tetx-sm" >Account & Lists</p>
                             </div>
                         </>
                     }
@@ -128,6 +125,7 @@ const Header = () => {
                         <span
                             className="absolute -top-1 right-0  md:right-10 w-4 h-5 bg-yellow-400 text-center rounded-full text-black font-bold"
                         >
+                            {/* {items.length < 0 ? 0 : items?.length }  */}
                             {items?.length}
                         </span>
                         <ShoppingCartIcon className="h-10" />
@@ -150,7 +148,7 @@ const Header = () => {
                 </p>
                 <p className="link">Prime Video</p>
                 <p className="link">Amazon Business</p>
-                <p className="link">Today's Deals</p>
+                <p className="link">Todays Deals</p>
                 <p className="link hidden lg:inline-flex">Electronics</p>
                 <p className="link hidden lg:inline-flex">Food & Grocery</p>
                 <p className="link hidden lg:inline-flex">Prime</p>
